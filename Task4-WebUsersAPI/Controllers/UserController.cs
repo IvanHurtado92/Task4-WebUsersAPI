@@ -1,12 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Task4_WebUsersAPI.DTOs;
+using Task4_WebUsersAPI.Models;
+using Task4_WebUsersAPI.Services;
 
 namespace Task4_WebUsersAPI.Controllers
 {
-    public class UserController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UserController : ControllerBase
     {
-        public IActionResult Index()
+        private readonly IUserService _userService;
+
+        public UserController(IUserService userService)
         {
-            return View();
+            _userService = userService;
+        }
+
+        [HttpGet("[action]")]
+        public IActionResult GetUsers()
+        {
+            BaseResponse response = _userService.GetUsers();
+            return StatusCode(response.status, response);
         }
     }
 }

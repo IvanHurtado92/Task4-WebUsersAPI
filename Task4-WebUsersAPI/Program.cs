@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Task4_WebUsersAPI.Models;
+using Task4_WebUsersAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,11 @@ builder.Services.AddDbContext<UserDbContext>(options =>
 }
 );
 
+// Adding the Services to be used by the Controllers
+
+builder.Services.AddScoped<IUserService, UserService>();
+
+// Everything you add has to be before the line below
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
