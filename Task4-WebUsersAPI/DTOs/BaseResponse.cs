@@ -7,9 +7,10 @@ namespace Task4_WebUsersAPI.DTOs
         public int status {  get; set; }
         public object? data { get; set; }
 
-        public BaseResponse(HttpStatusCode statusCode, object? data)
+        public BaseResponse(HttpStatusCode statusCode, object? data) // Constructor
         {
-            this.status = (int)statusCode; this.data = data;
+            this.status = (int)statusCode;
+            this.data = data;
         }
 
         public static string DataBaseExceptionMessage(Exception e)

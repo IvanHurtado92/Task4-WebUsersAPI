@@ -23,6 +23,7 @@ builder.Services.AddDbContext<UserDbContext>(options =>
 // Adding the Services to be used by the Controllers
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ILoginService, LogInService>();
 
 // Everything you add has to be before the line below
 var app = builder.Build();

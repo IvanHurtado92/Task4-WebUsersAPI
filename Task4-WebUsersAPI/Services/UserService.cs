@@ -98,7 +98,7 @@ namespace Task4_WebUsersAPI.Services
                 if(user.Blocked == false) user.Blocked = true;
                 _context.SaveChanges();
 
-                return new BaseResponse(HttpStatusCode.OK, "User deleted successfully");
+                return new BaseResponse(HttpStatusCode.OK, "User blocked successfully");
             }
             catch (Exception ex)
             {
@@ -119,7 +119,7 @@ namespace Task4_WebUsersAPI.Services
                 if (user.Blocked == true) user.Blocked = false;
                 _context.SaveChanges();
 
-                return new BaseResponse(HttpStatusCode.OK, "User deleted successfully");
+                return new BaseResponse(HttpStatusCode.OK, "User unblocked successfully");
             }
             catch (Exception ex)
             {
