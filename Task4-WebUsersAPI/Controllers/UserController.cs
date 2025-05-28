@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Task4_WebUsersAPI.DTOs;
+using Task4_WebUsersAPI.DTOs.ForgoPassword;
 using Task4_WebUsersAPI.DTOs.User;
 using Task4_WebUsersAPI.Models;
 using Task4_WebUsersAPI.Services;
@@ -18,8 +19,12 @@ namespace Task4_WebUsersAPI.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult CreateUser(CreateUserRequest newUser) 
+        public IActionResult CreateUser([FromBody] CreateUserRequest newUser) 
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             BaseResponse response = _userService.CreateUser(newUser);
             return StatusCode(response.status, response);
         }
@@ -49,6 +54,24 @@ namespace Task4_WebUsersAPI.Controllers
         public IActionResult UnblockUser(int id)
         {
             BaseResponse response = _userService.UnblockUser(id);
+            return StatusCode(response.status, response);
+        }
+
+        [HttpGet("[action]")]
+        public IActionResult IsUserBlocked(int id)
+        {
+            BaseResponse response = _userService.IsUserBlocked(id);
+            return StatusCode(response.status, response);
+        }
+
+        [HttpPost("[action]")]
+        public IActionResult GetPassword(ForgotPasswordRequest request)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            BaseResponse response = _userService.GetPassword(request);
             return StatusCode(response.status, response);
         }
     }

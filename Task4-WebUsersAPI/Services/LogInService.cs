@@ -23,6 +23,10 @@ namespace Task4_WebUsersAPI.Services
             }
             try
             {
+                if (user.Blocked == true)
+                {
+                    return new BaseResponse(HttpStatusCode.Unauthorized, "User blocked");
+                }
                 user.Last_Connection = DateTime.Now;
                 _context.SaveChanges();
                 return new BaseResponse(HttpStatusCode.OK, $"{data.Email} found, access granted");

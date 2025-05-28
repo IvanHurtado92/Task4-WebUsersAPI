@@ -2,6 +2,7 @@
 using Task4_WebUsersAPI.Models;
 using System.Net;
 using Task4_WebUsersAPI.DTOs.User;
+using Task4_WebUsersAPI.DTOs.ForgoPassword;
 
 namespace Task4_WebUsersAPI.Services
 {
@@ -120,6 +121,41 @@ namespace Task4_WebUsersAPI.Services
                 _context.SaveChanges();
 
                 return new BaseResponse(HttpStatusCode.OK, "User unblocked successfully");
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse(HttpStatusCode.InternalServerError, BaseResponse.DataBaseExceptionMessage(ex));
+            }
+        }
+
+        public BaseResponse IsUserBlocked(int UserId)
+        {
+            try
+            {
+                var user = _context.Users.Find(UserId);
+                if (user == null)
+                {
+                    return new BaseResponse(HttpStatusCode.NotFound, "User not found");
+                }
+
+                return new BaseResponse(HttpStatusCode.OK, user.Blocked);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse(HttpStatusCode.InternalServerError, BaseResponse.DataBaseExceptionMessage(ex));
+            }
+        }
+
+        public BaseResponse GetPassword(ForgotPasswordRequest request)
+        {
+            try
+            {
+                var user = _context.Users.FirstOrDefault(u => u.Email == request.Email);
+                if (user == null)
+                {
+                    return new BaseResponse(HttpStatusCode.NotFound, "User not found");
+                }
+                return new BaseResponse(HttpStatusCode.OK, user.Password);
             }
             catch (Exception ex)
             {

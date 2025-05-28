@@ -17,8 +17,13 @@ namespace Task4_WebUsersAPI.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult LogIn(LogInRequest request)
+        public IActionResult LogIn([FromBody] LogInRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             BaseResponse response = _loginService.LogIn(request);
             return StatusCode(response.status, response);
         }
