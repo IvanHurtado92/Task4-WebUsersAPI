@@ -17,13 +17,15 @@ namespace Task4_WebUsersAPI.Services
 
         public BaseResponse CreateUser(CreateUserRequest DTOuser)
         {
-            var existingUser = _context.Users.FirstOrDefault(u => u.Email == DTOuser.Email);
-            if (existingUser != null) 
-            {
-                return new BaseResponse(HttpStatusCode.BadRequest, "Email already exists");
-            }
-            else
-            {
+            // Manual occupied Email verifying
+
+            //var existingUser = _context.Users.FirstOrDefault(u => u.Email == DTOuser.Email);
+            //if (existingUser != null) 
+            //{
+            //    return new BaseResponse(HttpStatusCode.BadRequest, "Email already exists");
+            //}
+            //else
+            //{
                 try
                 {
                     User user = new User
@@ -43,7 +45,7 @@ namespace Task4_WebUsersAPI.Services
                 {
                     return new BaseResponse(HttpStatusCode.InternalServerError, BaseResponse.DataBaseExceptionMessage(ex));
                 }
-            }
+            //}
         }
         public BaseResponse GetUsers()
         {
