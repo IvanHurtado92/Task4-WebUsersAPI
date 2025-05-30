@@ -4,6 +4,19 @@ using Task4_WebUsersAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add CORS (Cross-Origin Resource Sharing)
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -27,6 +40,7 @@ builder.Services.AddScoped<ILoginService, LogInService>();
 
 // Everything you add has to be before the line below
 var app = builder.Build();
+app.UseCors("AllowAll");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
