@@ -8,10 +8,10 @@ namespace Task4_WebUsersAPI.Services
     {
         BaseResponse CreateUser(CreateUserRequest request);
         BaseResponse GetUsers();
-        BaseResponse DeleteUser(int id);
-        BaseResponse BlockUser(int  userId);
-        BaseResponse UnblockUser(int userId);
-        BaseResponse IsUserBlocked(int userId);
+        BaseResponse DeleteUser(int[] usersId);
+        BaseResponse BlockUser(int[]  usersId);
+        BaseResponse UnblockUser(int[] usersId);
+        BaseResponse IsUserBlocked(ForgotPasswordRequest request);
         BaseResponse GetPassword(ForgotPasswordRequest request);
     }
 }

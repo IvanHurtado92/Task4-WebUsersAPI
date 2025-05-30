@@ -37,30 +37,34 @@ namespace Task4_WebUsersAPI.Controllers
         }
 
         [HttpDelete("[action]")]
-        public IActionResult DeleteUser(int id) 
+        public IActionResult DeleteUser([FromBody] int[] ids) 
         {
-            BaseResponse response = _userService.DeleteUser(id);
+            BaseResponse response = _userService.DeleteUser(ids);
             return StatusCode(response.status, response);
         }
 
-        [HttpPatch("[action]")]
-        public IActionResult BlockUser(int id) 
+        [HttpPost("[action]")]
+        public IActionResult BlockUser([FromBody] int[] ids) 
         {
-            BaseResponse response = _userService.BlockUser(id);
+            BaseResponse response = _userService.BlockUser(ids);
             return StatusCode(response.status, response);
         }
 
-        [HttpPatch("[action]")]
-        public IActionResult UnblockUser(int id)
+        [HttpPost("[action]")]
+        public IActionResult UnblockUser([FromBody] int[] ids)
         {
-            BaseResponse response = _userService.UnblockUser(id);
+            BaseResponse response = _userService.UnblockUser(ids);
             return StatusCode(response.status, response);
         }
 
-        [HttpGet("[action]")]
-        public IActionResult IsUserBlocked(int id)
+        [HttpPost("[action]")]
+        public IActionResult IsUserBlocked([FromBody] ForgotPasswordRequest request)
         {
-            BaseResponse response = _userService.IsUserBlocked(id);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            BaseResponse response = _userService.IsUserBlocked(request);
             return StatusCode(response.status, response);
         }
 

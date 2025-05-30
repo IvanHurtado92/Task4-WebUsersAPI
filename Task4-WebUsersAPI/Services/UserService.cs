@@ -54,6 +54,7 @@ namespace Task4_WebUsersAPI.Services
                 var users = _context.Users.Select(p =>
                 new
                 {
+                    p.IdUser,
                     p.Name,
                     p.Email,
                     p.Blocked,
@@ -67,20 +68,23 @@ namespace Task4_WebUsersAPI.Services
             }
         }
 
-        public BaseResponse DeleteUser(int UserId) 
+        public BaseResponse DeleteUser(int[] UsersId) 
         {
             try
             {
-                var user = _context.Users.Find(UserId);
-                if (user == null)
-                {
-                    return new BaseResponse(HttpStatusCode.NotFound, "User not found");
-                }
+                foreach (int i in UsersId) 
+                { 
+                    var user = _context.Users.Find(i);
+                    if (user == null)
+                    {
+                        return new BaseResponse(HttpStatusCode.NotFound, $"User {i} not found");
+                    }
 
-                _context.Users.Remove(user);
+                    _context.Users.Remove(user);
+                }
                 _context.SaveChanges();
 
-                return new BaseResponse(HttpStatusCode.OK, "User deleted successfully");
+                return new BaseResponse(HttpStatusCode.OK, "User/s deleted successfully");
             }
             catch (Exception ex)
             {
@@ -88,20 +92,23 @@ namespace Task4_WebUsersAPI.Services
             }
         }
 
-        public BaseResponse BlockUser(int UserId)
+        public BaseResponse BlockUser(int[] UsersId)
         {
             try
             {
-                var user = _context.Users.Find(UserId);
-                if (user == null)
+                foreach(int i in UsersId)
                 {
-                    return new BaseResponse(HttpStatusCode.NotFound, "User not found");
+                    var user = _context.Users.Find(i);
+                    if (user == null)
+                    {
+                        return new BaseResponse(HttpStatusCode.NotFound, $"User {i} not found");
+                    }
+                    if(user.Blocked == false) user.Blocked = true;
                 }
 
-                if(user.Blocked == false) user.Blocked = true;
                 _context.SaveChanges();
 
-                return new BaseResponse(HttpStatusCode.OK, "User blocked successfully");
+                return new BaseResponse(HttpStatusCode.OK, "User/s blocked successfully");
             }
             catch (Exception ex)
             {
@@ -109,20 +116,23 @@ namespace Task4_WebUsersAPI.Services
             }
         }
 
-        public BaseResponse UnblockUser(int UserId)
+        public BaseResponse UnblockUser(int[] UsersId)
         {
             try
             {
-                var user = _context.Users.Find(UserId);
-                if (user == null)
+                foreach(int i in UsersId)
                 {
-                    return new BaseResponse(HttpStatusCode.NotFound, "User not found");
+                    var user = _context.Users.Find(i);
+                    if (user == null)
+                    {
+                        return new BaseResponse(HttpStatusCode.NotFound, $"User {i} not found");
+                    }
+                    if(user.Blocked == true) user.Blocked = false;
                 }
 
-                if (user.Blocked == true) user.Blocked = false;
                 _context.SaveChanges();
 
-                return new BaseResponse(HttpStatusCode.OK, "User unblocked successfully");
+                return new BaseResponse(HttpStatusCode.OK, "User/s unblocked successfully");
             }
             catch (Exception ex)
             {
@@ -130,11 +140,11 @@ namespace Task4_WebUsersAPI.Services
             }
         }
 
-        public BaseResponse IsUserBlocked(int UserId)
+        public BaseResponse IsUserBlocked(ForgotPasswordRequest request)
         {
             try
             {
-                var user = _context.Users.Find(UserId);
+                var user = _context.Users.FirstOrDefault(u => u.Email == request.Email);
                 if (user == null)
                 {
                     return new BaseResponse(HttpStatusCode.NotFound, "User not found");
