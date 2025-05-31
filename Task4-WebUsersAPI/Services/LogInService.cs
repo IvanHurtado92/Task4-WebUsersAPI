@@ -29,7 +29,7 @@ namespace Task4_WebUsersAPI.Services
                 }
                 user.Last_Connection = DateTime.Now;
                 _context.SaveChanges();
-                return new BaseResponse(HttpStatusCode.OK, $"{data.Email} found, access granted");
+                return new BaseResponse(HttpStatusCode.OK, user.IdUser);
             }
             catch (Exception ex) 
             {
