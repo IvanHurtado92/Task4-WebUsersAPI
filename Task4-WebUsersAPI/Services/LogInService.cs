@@ -19,7 +19,7 @@ namespace Task4_WebUsersAPI.Services
             var user = _context.Users.FirstOrDefault(u => u.Email == data.Email && u.Password == data.Password);
             if (user == null)
             {
-                return new BaseResponse(HttpStatusCode.Unauthorized, "No user found with that credentials");
+                return new BaseResponse(HttpStatusCode.Unauthorized, "No user found with those credentials");
             }
             try
             {
